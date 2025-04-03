@@ -1,0 +1,137 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url("fondo2.png") no-repeat center center/cover;
+    background-size: cover;
+    color: #fff;
+}
+
+.container {
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.logo {
+    width: 90%;
+    max-width: 250px;
+    margin-bottom: 20px;
+    background: none;
+}
+
+.btn {
+    width: 100%;
+    padding: 15px;
+    background: #2d8cff;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+    background: #1a6edb;
+    transform: translateY(-2px);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Espacio entre los campos */
+    margin-top: 20px;
+}
+
+.input-field {
+    padding: 12px;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    font-size: 16px;
+    color: #333;
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.input-field:focus {
+    border: 2px solid #2d8cff;
+    outline: none;
+}
+
+.register {
+    margin-top: 15px;
+    font-size: 14px;
+    color: black;
+}
+
+.register a {
+    color: #2d8cff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register a:hover {
+    text-decoration: underline;
+}
+
+/* styles/login.css */
+.password-container {
+    position: relative;
+    width: 100%;
+    
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    user-select: none;
+}
+
+.container h2 {
+    color: black; /* Color negro para el título */
+    margin-bottom: 30px; /* Más espacio entre el título y los campos de entrada */
+}
+
+/* styles/login.css */
+.message {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: center;
+    display: none; /* Ocultar por defecto */
+}
+
+.message.error {
+    background-color: #ffebee; /* Fondo rojo claro para errores */
+    color: #c62828; /* Texto rojo oscuro */
+    border: 1px solid #c62828;
+}
+
+.message.success {
+    background-color: #e8f5e9; /* Fondo verde claro para éxito */
+    color: #2e7d32; /* Texto verde oscuro */
+    border: 1px solid #2e7d32;
+}

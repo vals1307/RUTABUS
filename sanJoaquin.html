@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruta San Joaquín Juárez | Transporte Mazatlán</title>
+    <link rel="stylesheet" href="ruta.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="route-header">
+        <a href="index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1>San Joaquín Juárez</h1>
+    </header>
+
+    <main class="route-container">
+        <section class="route-map">
+            <div id="map"></div>
+        </section>
+
+        <section class="route-info">
+            <div class="info-card">
+                <i class="fas fa-clock"></i>
+                <div>
+                    <h3>Horario</h3>
+                    <p>6:30 AM - 10:30 PM</p>
+                </div>
+            </div>
+            
+            <div class="info-card">
+                <i class="fas fa-bus"></i>
+                <div>
+                    <h3>Frecuencia</h3>
+                    <p>Cada 20-25 minutos</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="route-details">
+            <h2><i class="fas fa-info-circle"></i> Información de la Ruta</h2>
+            <p>La ruta San Joaquín Juárez conecta la zona residencial con el centro de la ciudad, pasando por avenidas principales como Gabriel Leyva e Insurgentes.</p>
+            
+            <div class="detail-card">
+                <h3><i class="fas fa-map-marked-alt"></i> Recorrido</h3>
+                <p>Inicia en Calle Monrovia, recorre Boulevard California, continúa por Avenida Gabriel Leyva hasta llegar al centro histórico.</p>
+            </div>
+        </section>
+
+        <section class="stops-section">
+            <h2><i class="fas fa-map-pin"></i> Paradas Principales</h2>
+            <ul class="stops-list">
+                <li>Calle Monrovia, 24305</li>
+                <li>Boulevard California, 4808</li>
+                <li>Calle Sausalito, 24101</li>
+                <li>Avenida Gabriel Leyva, 4063</li>
+                <li>Calle Benito Juárez, 1908</li>
+            </ul>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Configuramos el botón de regreso
+    const backButton = document.querySelector('.back-button');
+    
+    backButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Verificamos si venimos de favoritos
+        const fromFavorites = localStorage.getItem('comingFromFavorites');
+        
+        if(fromFavorites === 'true') {
+            localStorage.removeItem('comingFromFavorites');
+            // Redirigimos directamente al inicio
+            window.location.href = 'rutabus.html';
+        } else {
+            // Comportamiento normal
+            window.history.back();
+        }
+    });
+});
+        // Datos específicos para San Joaquín Juárez
+        const routeConfig = {
+            name: "San Joaquín Juárez",
+            coords: [
+                [23.185266828420684, -106.32548051779212],
+                [23.186439286516656, -106.32459929080726],
+                [23.188626572606374, -106.32500046197124],
+                [23.18990892306629, -106.32572374847878],
+                [23.19005440892405, -106.32719977546371],
+                [23.18940147169172, -106.3282094196429],
+                [23.190178222827814, -106.32901087546367],
+                [23.191321650411705, -106.33030303313538],
+                [23.192534662531617, -106.33100809080699],
+                [23.193122379054575, -106.33166541779184],
+                [23.19243354086579, -106.33242370429949],
+                [23.190671322391136, -106.332123590807],
+                [23.189373385585537, -106.33133058895615],
+                [23.187949311253703, -106.33023041964299],
+                [23.18669157695163, -106.33037290429968],
+                [23.18684280132032, -106.33148257546381],
+                [23.1890878996633, -106.33292483313537],
+                [23.189217575459796, -106.33401930429955],
+                [23.192532635310997, -106.33538159080695],
+                [23.19369031109506, -106.33684043313528],
+                [23.194471941662492, -106.34004864292586],
+                [23.19561342594561, -106.33964506197105],
+                [23.196806216957654, -106.34491960615027],
+                [23.203474889042045, -106.36211079080661],
+                [23.20922009062721, -106.3659604889555],
+                [23.21355126108186, -106.37033871964216],
+                [23.216623439064097, -106.37381111964208],
+                [23.227692784173215, -106.38564504008474],
+                [23.232107701530193, -106.39034827731332],
+                [23.23146532729752, -106.3958075196416],
+                [23.228926179029653, -106.39776886011899],
+                [23.22876145642095, -106.39954704847754],
+                [23.23008476582577, -106.40125221964158],
+                [23.231260473760784, -106.4025564466265],
+                [23.230969314899053, -106.40438216196993],
+                [23.229214606442472, -106.40524860429827],
+                [23.228011970913172, -106.40391980429831],
+                [23.226751534710715, -106.40223080429831],
+                [23.225446516534348, -106.4007449754625],
+                [23.221654856290538, -106.40225554662682],
+                [23.218324279037002, -106.40364796011934],
+                [23.21603003946769, -106.40501600429869],
+                [23.211816984827525, -106.40777429265724],
+                [23.208469860929014, -106.410376604299],
+                [23.206331973303982, -106.41200127643279],
+                [23.20428971033808, -106.41345380526927],
+                [23.20262902251555, -106.41345943410566],
+                [23.20199073460456, -106.41447226294207],
+                [23.20168255720107, -106.41591057643305],
+                [23.20129656350684, -106.41786819177841],
+                [23.201197974250178, -106.41945313410575],
+                [23.202210656577304, -106.42008286108762],
+                [23.2012254024405, -106.42050197643303],
+                [23.200716268677574, -106.4218414052694],
+                [23.200561352422213, -106.42359944759667],
+                [23.20039142614867, -106.42431571876035],
+                [23.199755436914646, -106.42350440526944],
+                [23.200028959153947, -106.42183133596022]
+            ],
+            stops: [
+                {name: "Calle Monrovia, 24305", coords: [23.185266828420684, -106.32548051779212]},
+                {name: "Avenida California, 4603a", coords: [23.186439286516656, -106.32459929080726]},
+                {name: "Boulevard California, 4808", coords: [23.188626572606374, -106.32500046197124]},
+                {name: "Calle California, 4925", coords: [23.18990892306629, -106.32572374847878]},
+                {name: "Avenida San Pedro, 5004", coords: [23.19005440892405, -106.32719977546371]},
+                {name: "Calle Alamitos, 24199", coords: [23.18940147169172, -106.3282094196429]},
+                {name: "Calle Pasadena, 24232", coords: [23.190178222827814, -106.32901087546367]},
+                {name: "Avenida Santa Ana, 5302", coords: [23.191321650411705, -106.33030303313538]},
+                {name: "Calle Santa Ana, 5414", coords: [23.192534662531617, -106.33100809080699]},
+                {name: "Calle Sausalito, 24101", coords: [23.193122379054575, -106.33166541779184]},
+                {name: "Avenida Del Toro, 5415", coords: [23.19243354086579, -106.33242370429949]},
+                {name: "Calle Pomoná, 24047", coords: [23.190671322391136, -106.332123590807]},
+                {name: "Avenida Pasadena, 24045", coords: [23.189373385585537, -106.33133058895615]},
+                {name: "Avenida Del Toro, 5031", coords: [23.187949311253703, -106.33023041964299]},
+                {name: "San Francisco, 5001", coords: [23.18669157695163, -106.33037290429968]},
+                {name: "Calle San Marino, 31", coords: [23.18684280132032, -106.33148257546381]},
+                {name: "Calle San Marino, 5254", coords: [23.1890878996633, -106.33292483313537]},
+                {name: "Calle Santa Elena, 23901", coords: [23.189217575459796, -106.33401930429955]},
+                {name: "Primavera, 142", coords: [23.192532635310997, -106.33538159080695]},
+                {name: "Amapa, 115", coords: [23.19369031109506, -106.33684043313528]},
+                {name: "Escolar, 16", coords: [23.194471941662492, -106.34004864292586]},
+                {name: "Calle Escolar, 100", coords: [23.19561342594561, -106.33964506197105]},
+                {name: "Internacional, 6", coords: [23.196806216957654, -106.34491960615027]},
+                {name: "Internacional Mexico 15, 2", coords: [23.203474889042045, -106.36211079080661]},
+                {name: "Boulevard Luis Donaldo Colosio Murrieta, Sn-S", coords: [23.20922009062721, -106.3659604889555]},
+                {name: "Granja, 25", coords: [23.21355126108186, -106.37033871964216]},
+                {name: "Boulevard Luis Donaldo Colosio Murrieta, 9820", coords: [23.216623439064097, -106.37381111964208]},
+                {name: "Libramiento De Mazatlán, 7102", coords: [23.227692784173215, -106.38564504008474]},
+                {name: "Carretera Internacional México 15, 5621", coords: [23.232107701530193, -106.39034827731332]},
+                {name: "Avenida Gabriel Leyva, 4063", coords: [23.23146532729752, -106.3958075196416]},
+                {name: "Avenida Gabriel Leyva, 12a", coords: [23.228926179029653, -106.39776886011899]},
+                {name: "Avenida Insurgentes, 6101c", coords: [23.22876145642095, -106.39954704847754]},
+                {name: "Avenida Insurgentes, 5605", coords: [23.23008476582577, -106.40125221964158]},
+                {name: "Avenida Insurgentes, 5217", coords: [23.231260473760784, -106.4025564466265]},
+                {name: "Avenida De Las Américas, 19b", coords: [23.230969314899053, -106.40438216196993]},
+                {name: "Enrique Pérez Arce, 2715", coords: [23.229214606442472, -106.40524860429827]},
+                {name: "Enrique Pérez Arce, 5208", coords: [23.228011970913172, -106.40391980429831]},
+                {name: "Enrique Pérez Arce, 5443", coords: [23.226751534710715, -106.40223080429831]},
+                {name: "Enrique Pérez Arce, 5628", coords: [23.225446516534348, -106.4007449754625]},
+                {name: "Munich, 3229", coords: [23.221654856290538, -106.40225554662682]},
+                {name: "Avenida Gabriel Leyva, 2831", coords: [23.218324279037002, -106.40364796011934]},
+                {name: "Avenida Gabriel Leyva, 1880", coords: [23.21603003946769, -106.40501600429869]},
+                {name: "Avenida Gabriel Leyva, 2116a", coords: [23.211816984827525, -106.40777429265724]},
+                {name: "Avenida Gabriel Leyva, 1916", coords: [23.208469860929014, -106.410376604299]},
+                {name: "Av. Gabriel Leyva 1711", coords: [23.206331973303982, -106.41200127643279]},
+                {name: "Avenida Gabriel Leyva, 1616", coords: [23.20428971033808, -106.41345380526927]},
+                {name: "Gregorio Ortega, 1133", coords: [23.20262902251555, -106.41345943410566]},
+                {name: "21 De Marzo, 1420", coords: [23.20199073460456, -106.41447226294207]},
+                {name: "21 De Marzo, 1315", coords: [23.20168255720107, -106.41591057643305]},
+                {name: "21 De Marzo, 1116", coords: [23.20129656350684, -106.41786819177841]},
+                {name: "Teniente José Azueta, 1604", coords: [23.201197974250178, -106.41945313410575]},
+                {name: "Leandro Valle, 415", coords: [23.202210656577304, -106.42008286108762]},
+                {name: "Aquiles Serdán, 1513", coords: [23.2012254024405, -106.42050197643303]},
+                {name: "21 De Marzo, Sn-S", coords: [23.200716268677574, -106.4218414052694]},
+                {name: "21 De Marzo, 418", coords: [23.200561352422213, -106.42359944759667]},
+                {name: "Belisario Domínguez, 1803", coords: [23.20039142614867, -106.42431571876035]},
+                {name: "Calle General Ángel Flores, 604", coords: [23.199755436914646, -106.42350440526944]},
+                {name: "Calle General Ángel Flores, 834", coords: [23.200028959153947, -106.42183133596022]},
+            ]
+        };
+    </script>
+    <script src="ruta.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</body>
+</html>

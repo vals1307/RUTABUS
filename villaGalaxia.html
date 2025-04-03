@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruta Villa Galaxia | Transporte Mazatlán</title>
+    <link rel="stylesheet" href="ruta.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="route-header">
+        <a href="index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1>Villa Galaxia</h1>
+    </header>
+
+    <main class="route-container">
+        <section class="route-map">
+            <div id="map"></div>
+        </section>
+
+        <section class="route-info">
+            <div class="info-card">
+                <i class="fas fa-clock"></i>
+                <div>
+                    <h3>Horario</h3>
+                    <p>6:00 AM - 10:00 PM</p>
+                </div>
+            </div>
+            
+            <div class="info-card">
+                <i class="fas fa-bus"></i>
+                <div>
+                    <h3>Frecuencia</h3>
+                    <p>Cada 15-20 minutos</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="route-details">
+            <h2><i class="fas fa-info-circle"></i> Información de la Ruta</h2>
+            <p>La ruta Villa Galaxia conecta la zona residencial con el centro de la ciudad, pasando por avenidas principales como Munich y Juan Pablo II.</p>
+            
+            <div class="detail-card">
+                <h3><i class="fas fa-map-marked-alt"></i> Recorrido</h3>
+                <p>Inicia en Calle Caoba, recorre Avenida de la Pradera, continúa por Avenida Munich hasta llegar al centro histórico.</p>
+            </div>
+        </section>
+
+        <section class="stops-section">
+            <h2><i class="fas fa-map-pin"></i> Paradas Principales</h2>
+            <ul class="stops-list">
+                <li>Calle Caoba, 10339</li>
+                <li>Calle Albert Einstein, 10216</li>
+                <li>Avenida Munich, 2018b</li>
+                <li>Avenida Ejército Mexicano, 505</li>
+                <li>Avenida Juan Carrasco, 304b</li>
+            </ul>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Configuramos el botón de regreso
+    const backButton = document.querySelector('.back-button');
+    
+    backButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Verificamos si venimos de favoritos
+        const fromFavorites = localStorage.getItem('comingFromFavorites');
+        
+        if(fromFavorites === 'true') {
+            // Eliminamos la bandera
+            localStorage.removeItem('comingFromFavorites');
+            // Redirigimos directamente al inicio
+            window.location.href = 'rutabus.html';
+        } else {
+            // Comportamiento normal
+            window.history.back();
+        }
+    });
+    
+});
+        const routeConfig = {
+            name: "Villa Galaxia",
+            coords: [
+                [23.270625683343898, -106.36977000429697],
+                [23.268657279002042, -106.37113117546116],
+                [23.26863920373515, -106.37239451964044],
+                [23.269759403402833, -106.37487930429705],
+                [23.270301515367002, -106.37647161964038],
+                [23.27028437605584, -106.37873929080449],
+                [23.27026652751564, -106.38029721964035],
+                [23.269449627999645, -106.3815728196404],
+                [23.267207047869654, -106.38238871964049],
+                [23.266871273209212, -106.38384506196871],
+                [23.26719170416448, -106.38455093313293],
+                [23.266724029614487, -106.38572391964047],
+                [23.265308679004416, -106.38716210429709],
+                [23.26506412255863, -106.38812686196886],
+                [23.26619733536662, -106.38967560429711],
+                [23.261564764439694, -106.39480398788993],
+                [23.259176408366987, -106.39734037546145],
+                [23.257440222000128, -106.39937421778978],
+                [23.255324064679723, -106.4015811177899],
+                [23.251495693914542, -106.40543184847681],
+                [23.24969957901526, -106.4075612484768],
+                [23.24587369474942, -106.41079887361097],
+                [23.242888662850127, -106.41161476196949],
+                [23.24177115352873, -106.41073409080545],
+                [23.240937611946514, -106.41001300429785],
+                [23.23901669576768, -106.41071530429792],
+                [23.2381502790233, -106.41129119080556],
+                [23.236753820485635, -106.41209838895469],
+                [23.234885037702877, -106.41258979080567],
+                [23.234417437737758, -106.41394163313397],
+                [23.23573807902485, -106.42103140429803],
+                [23.23249286839431, -106.42286163973584],
+                [23.227424375180032, -106.42131749080585],
+                [23.22711159753467, -106.42159417361158],
+                [23.224606632874007, -106.4204325871041],
+                [23.221659060104876, -106.41907809503707],
+                [23.218829980537258, -106.41782158658427],
+                [23.21644243907768, -106.41673747546288],
+                [23.213132218757913, -106.41610214662705],
+                [23.21055767904252, -106.41703198895551],
+                [23.209089318462212, -106.41832528895551],
+                [23.20738151833743, -106.41961436197066],
+                [23.205645761556134, -106.42098217546321],
+                [23.2049337661753, -106.42107093313497],
+                [23.20305172316167, -106.42082657546322],
+                [23.201097207265548, -106.42045906011992],
+                [23.198497633604628, -106.42014801964254],
+                [23.195964955954413, -106.421519788956],
+                [23.194988425546576, -106.4242984177918],
+                [23.194403425719443, -106.42528007546355],
+                [23.194602187314224, -106.42392246197097],
+                [23.195795763742964, -106.4213431331352],
+                [23.19813025627232, -106.42113123313511],
+                [23.202130146079668, -106.42163673643115],
+                [23.202957340082126, -106.42159210429912],
+                [23.204685251288208, -106.42211175452096],
+                [23.206058669574702, -106.42142529080657],
+                [23.20712062195792, -106.4195594908065]
+            ],
+            stops: [
+                {name: "Calle Caoba, 10339", coords: [23.270625683343898, -106.36977000429697]},
+                {name: "Calle Patos, 17941", coords: [23.268657279002042, -106.37113117546116]},
+                {name: "Calle Horneros, 10218", coords: [23.26863920373515, -106.37239451964044]},
+                {name: "Calle Albert Einstein, 10216", coords: [23.269759403402833, -106.37487930429705]},
+                {name: "Avenida De La Pradera, 18304", coords: [23.270301515367002, -106.37647161964038]},
+                {name: "Bisontes, 18501", coords: [23.27028437605584, -106.37873929080449]},
+                {name: "Álamo, 18114", coords: [23.27026652751564, -106.38029721964035]},
+                {name: "Calle Tama, 18053", coords: [23.269449627999645, -106.3815728196404]},
+                {name: "Ixtapa, 18101", coords: [23.267207047869654, -106.38238871964049]},
+                {name: "Olas Altas, 18005", coords: [23.266871273209212, -106.38384506196871]},
+                {name: "Ixtapa, 17911a", coords: [23.26719170416448, -106.38455093313293]},
+                {name: "Calle Sauces, 246", coords: [23.266724029614487, -106.38572391964047]},
+                {name: "Calle Las Mañanitas, 235", coords: [23.265308679004416, -106.38716210429709]},
+                {name: "Calle Siqueros, 249", coords: [23.26506412255863, -106.38812686196886]},
+                {name: "Avenida Munich, 2018b", coords: [23.26619733536662, -106.38967560429711]},
+                {name: "Avenida Juan Pablo Ii, 110", coords: [23.261564764439694, -106.39480398788993]},
+                {name: "Munich 72, 702", coords: [23.259176408366987, -106.39734037546145]},
+                {name: "Avenida Munich, 1006", coords: [23.257440222000128, -106.39937421778978]},
+                {name: "Munich 72, 113", coords: [23.255324064679723, -106.4015811177899]},
+                {name: "Munich 72, 302", coords: [23.251495693914542, -106.40543184847681]},
+                {name: "Munich 72, 43", coords: [23.24969957901526, -106.4075612484768]},
+                {name: "Puerto Angel, 823", coords: [23.24587369474942, -106.41079887361097]},
+                {name: "Avenida Juan Pablo Ii, 1641", coords: [23.242888662850127, -106.41161476196949]},
+                {name: "Sagitario, 3420", coords: [23.24177115352873, -106.41073409080545]},
+                {name: "Libra, 3505", coords: [23.240937611946514, -106.41001300429785]},
+                {name: "Tauro, 3428", coords: [23.23901669576768, -106.41071530429792]},
+                {name: "Acuario, 3423", coords: [23.2381502790233, -106.41129119080556]},
+                {name: "Avenida México 68, 1313", coords: [23.236753820485635, -106.41209838895469]},
+                {name: "Avenida México 68, 1119", coords: [23.234885037702877, -106.41258979080567]},
+                {name: "Avenida Insurgentes, 4245", coords: [23.234417437737758, -106.41394163313397]},
+                {name: "Avenida Insurgentes, 2975", coords: [23.23573807902485, -106.42103140429803]},
+                {name: "Avenida Ejército Mexicano, 1010", coords: [23.23249286839431, -106.42286163973584]},
+                {name: "Avenida Ejército Mexicano, 108(372", coords: [23.227424375180032, -106.42131749080585]},
+                {name: "Avenida Ejército Mexicano, 2203", coords: [23.22711159753467, -106.42159417361158]},
+                {name: "Lola Beltrán, 2a", coords: [23.224606632874007, -106.4204325871041]},
+                {name: "Calle Río Piaxtla, 809", coords: [23.221659060104876, -106.41907809503707]},
+                {name: "Avenida Ejército Mexicano, 505", coords: [23.218829980537258, -106.41782158658427]},
+                {name: "Avenida Ejército Mexicano, 1205", coords: [23.21644243907768, -106.41673747546288]},
+                {name: "Avenida Juan Carrasco, 160", coords: [23.213132218757913, -106.41610214662705]},
+                {name: "Avenida Juan Carrasco, 127a", coords: [23.21055767904252, -106.41703198895551]},
+                {name: "Avenida Juan Carrasco, 527", coords: [23.209089318462212, -106.41832528895551]},
+                {name: "Avenida Juan Carrasco, 267", coords: [23.20738151833743, -106.41961436197066]},
+                {name: "Aquiles Serdán, 2202", coords: [23.205645761556134, -106.42098217546321]},
+                {name: "Aquiles Serdán, 2099", coords: [23.2049337661753, -106.42107093313497]},
+                {name: "Aquiles Serdán, 1813", coords: [23.20305172316167, -106.42082657546322]},
+                {name: "Aquiles Serdán, 1513", coords: [23.201097207265548, -106.42045906011992]},
+                {name: "Aquiles Serdán, 1115", coords: [23.198497633604628, -106.42014801964254]},
+                {name: "Avenida Miguel Alemán, 303", coords: [23.195964955954413, -106.421519788956]},
+                {name: "Circunvalación, 317", coords: [23.194988425546576, -106.4242984177918]},
+                {name: "Venustiano Carranza, 36a", coords: [23.194403425719443, -106.42528007546355]},
+                {name: "Avenida Miguel Alemán, 208", coords: [23.194602187314224, -106.42392246197097]},
+                {name: "Avenida Miguel Alemán, 310", coords: [23.195795763742964, -106.4213431331352]},
+                {name: "Calle Libertad Poniente, 1204", coords: [23.19813025627232, -106.42113123313511]},
+                {name: "Calle Benito Juárez, Sn-S Fabricas De Francia", coords: [23.202130146079668, -106.42163673643115]},
+                {name: "Calle Benito Juárez, 1908", coords: [23.202957340082126, -106.42159210429912]},
+                {name: "Calle Benito Juárez, 2212", coords: [23.204685251288208, -106.42211175452096]},
+                {name: "Luis Zúñiga, 624b", coords: [23.206058669574702, -106.42142529080657]},
+                {name: "Avenida Juan Carrasco, 304b", coords: [23.20712062195792, -106.4195594908065]}
+            ]
+        };
+    </script>
+    <script src="ruta.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</body>
+</html>

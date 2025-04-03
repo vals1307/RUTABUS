@@ -1,0 +1,322 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#app {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+     /* Incluye el padding en el alto total */
+}
+
+/* ====================== */
+/* Botones y Controles */
+/* ====================== */
+.menu-button {
+    position: absolute;
+    bottom: 20px; /* Cambiado de bottom a top */
+    left: 20px;
+    z-index: 1000;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    margin-bottom: 0;
+}
+
+.menu-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-size: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* ====================== */
+/* Sidebar y Menús */
+/* ====================== */
+.sidebar {
+    width: 250px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: -250px;
+    top: 0;
+    bottom: 0;
+    transition: left 0.3s ease;
+    z-index: 999;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar.open {
+    left: 0;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+}
+
+.sidebar .logo {
+    padding: 10px;
+    text-align: center;
+}
+
+.sidebar .logo img {
+    max-width: 90%;
+    height: auto;
+}
+
+.sidebar .divider {
+    width: 80%;
+    height: 2px;
+    background-color: #007bff;
+    margin: 10px auto;
+    opacity: 0.5;
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.menu li {
+    padding: 12px 25px 12px 70px; 
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+}
+
+.menu li i{
+    color: #007bff; /* Azul idéntico al tema */
+    position: absolute;
+    left: 25px;
+    font-size: 0.9em;
+    width: 40px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.menu li:hover {
+    background-color: #e6f2ff;
+    transform: translateX(5px);
+}
+
+.menu-title {
+    font-weight: bold;
+    color: #007bff;
+    padding: 15px 25px;
+    display: block;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    text-transform: uppercase;
+}
+
+.route-item {
+    padding-left: 35px !important;
+    position: relative;
+    color: #333;
+}
+
+.route-item i {
+    position: absolute;
+    left: 25px;
+    color: #007bff;
+}
+
+.route-item:hover {
+    background-color: #e6f2ff !important;
+}
+
+.route-item.active {
+    background-color: #007bff !important;
+    color: white;
+}
+
+.route-item.active i {
+    color: white;
+}
+
+/* ====================== */
+/* Contenido Principal */
+/* ====================== */
+#main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#search-bar {
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    gap: 10px;
+}
+
+#search-bar input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#search-bar button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#search-bar button:hover {
+    background-color: #0056b3;
+}
+
+#map {
+    flex: 1;
+    height: 100%;
+}
+
+#routeInfo {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #ddd;
+    display: none;
+}
+
+/* ====================== */
+/* Elementos del Mapa */
+/* ====================== */
+.leaflet-popup-content {
+    font-size: 14px;
+    padding: 8px;
+    text-align: center;
+}
+
+.leaflet-popup-content b {
+    color: #007bff;
+}
+
+.leaflet-control-zoom {
+    display: none !important;
+}
+
+.route-item i {
+    margin-right: 15px !important; /* Espacio fijo entre icono y texto */
+    position: static !important; /* Elimina posicionamiento absoluto */
+}
+
+/* ====================== */
+/* Botón de Favoritos */
+/* ====================== */
+#route-actions {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    gap: 10px;
+}
+
+.favorite-btn {
+    background-color: #ffffff;
+    color: #007bff;
+    border: 2px solid #007bff;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.favorite-btn:hover {
+    background-color: #007bff;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.favorite-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.favorite-btn:disabled {
+    background-color: #ffc107;
+    color: #212529;
+    border-color: #ffc107;
+    cursor: default;
+    transform: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.favorite-btn i {
+    font-size: 18px;
+}
+
+/* Efecto para cuando ya está en favoritos */
+.favorite-btn:disabled i {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Ajuste para el botón del menú */
+.menu-button {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.menu-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}

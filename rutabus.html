@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Rutas de Transporte</title>
+    <link rel="stylesheet" href="rutabus.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+    <div id="app">
+        <button id="menuButton" class="menu-button">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <button id="backButton" class="back-button" style="display: none;">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="logo">
+                    <img src="logo.png" alt="Logo Transporte">
+                </div>
+            </div>
+            <div class="divider"></div>
+
+            <ul id="mainMenu" class="menu">
+                <li id="rutasButton"><i class="fas fa-bus"></i> Rutas</li>
+                <li id="favoritosButton"><i class="fas fa-heart"></i> Favoritos</li>
+                <li><i class="fas fa-cog"></i> Ajustes</li>
+                <li><i class="fas fa-question-circle"></i> Ayuda</li>
+            </ul>
+
+            <ul id="routesSubmenu" class="menu" style="display: none;">
+                <li class="menu-title">Selecciona una Ruta</li>
+                <li class="route-item" data-route="pradera-directo">
+                    <i class="fas fa-bus"></i> Pradera Directo
+                </li>
+                <li class="route-item" data-route="venadillo">
+                    <i class="fas fa-bus"></i> Venadillo
+                </li>
+                <li class="route-item" data-route="san-joaquin-juarez">
+                    <i class="fas fa-bus"></i> San Joaquín Juárez
+                </li>
+                <li class="route-item" data-route="villa-galaxia">
+                    <i class="fas fa-bus"></i> Villa Galaxia
+                </li>
+            </ul>
+
+            <ul id="favoritesMenu" class="menu" style="display: none;">
+                <li class="menu-title">Tus Rutas Favoritas</li>
+                <!-- Los favoritos se cargarán dinámicamente aquí -->
+            </ul>
+        </div>
+
+        <div id="main-content">
+            <div id="search-bar">
+                <input type="text" id="routeSearch" placeholder="Ej: Pradera Directo...">
+                <button id="searchButton"><i class="fas fa-search"></i></button>
+            </div>
+
+            <div id="route-actions" style="display: none;">
+                <button id="addFavorite" class="favorite-btn" disabled>
+                    <i class="far fa-star"></i> Agregar a Favoritos
+                </button>
+            </div>
+
+            <div id="map"></div>
+
+            <div id="routeInfo" style="display: none;">
+                <h3 id="routeName"></h3>
+                <p id="routeDetails"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="rutabus.js"></script>
+</body>
+</html>

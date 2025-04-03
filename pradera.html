@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruta Pradera Directo | Transporte Mazatlán</title>
+    <link rel="stylesheet" href="ruta.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="route-header">
+        <a href="index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1>Pradera Directo</h1>
+    </header>
+
+    <main class="route-container">
+        <section class="route-map">
+            <div id="map"></div>
+        </section>
+
+        <section class="route-info">
+            <div class="info-card">
+                <i class="fas fa-clock"></i>
+                <div>
+                    <h3>Horario</h3>
+                    <p>6:00 AM - 10:00 PM</p>
+                </div>
+            </div>
+            
+            <div class="info-card">
+                <i class="fas fa-bus"></i>
+                <div>
+                    <h3>Frecuencia</h3>
+                    <p>Cada 10-15 minutos</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="route-details">
+            <h2><i class="fas fa-info-circle"></i> Información de la Ruta</h2>
+            <p>La ruta Pradera Directo conecta la zona residencial de Pradera Dorada con el centro de la ciudad.</p>
+            
+            <div class="detail-card">
+                <h3><i class="fas fa-map-marked-alt"></i> Recorrido</h3>
+                <p>Inicia en Avenida San Miguel, recorre Eje 2 A, continúa por Genaro Estrada hasta llegar al centro.</p>
+            </div>
+        </section>
+
+        <section class="stops-section">
+            <h2><i class="fas fa-map-pin"></i> Paradas Principales</h2>
+            <ul class="stops-list">
+                <li>Avenida San Miguel, 18255</li>
+                <li>Habacuc, 18304</li>
+                <li>Avenida Genaro Estrada, 18437</li>
+                <li>Calle Mustangs, 18531</li>
+                <li>Avenida Gabriel Leyva, 4063</li>
+            </ul>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Configuramos el botón de regreso
+    const backButton = document.querySelector('.back-button');
+    
+    backButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Verificamos si venimos de favoritos
+        const fromFavorites = localStorage.getItem('comingFromFavorites');
+        
+        if(fromFavorites === 'true') {
+            // Eliminamos la bandera
+            localStorage.removeItem('comingFromFavorites');
+            // Redirigimos directamente al inicio
+            window.location.href = 'rutabus.html';
+        } else {
+            // Comportamiento normal
+            window.history.back();
+        }
+    });
+
+    });
+    
+    const routeConfig = {
+            name: "Pradera Directo",
+            coords: [
+                [23.27408197583113, -106.36855044992679],
+                [23.274542017100543, -106.36978546479389],
+                [23.2764540799901, -106.37072327643033],
+                [23.274992814766176, -106.3721938206122],
+                [23.27391449498501, -106.37424322061217],
+                [23.272984472868096, -106.37541023410324],
+                [23.27421034829657, -106.37651687643043],
+                [23.274162457883424, -106.37870207643041],
+                [23.272813609297533, -106.37846463168118],
+                [23.27043619559275, -106.37813976293963],
+                [23.270331083550438, -106.3764501629396],
+                [23.269857964365944, -106.37486857643061],
+                [23.268805083478302, -106.37413296293968],
+                [23.2680051912474, -106.37449546293968],
+                [23.26674251126258, -106.3751390764307],
+                [23.264341196128058, -106.37779598992176],
+                [23.261013000560975, -106.37993050526728],
+                [23.25775724585716, -106.38147789791257],
+                [23.25546870794395, -106.38278699177644],
+                [23.250859069036018, -106.38527597643123],
+                [23.246803903861718, -106.38750509177676],
+                [23.242873136441602, -106.3898801744236],
+                [23.24059987735623, -106.39017312061338],
+                [23.236986008152407, -106.39018974944982],
+                [23.2336488018644, -106.38998282061367],
+                [23.23246262082557, -106.39027317643193],
+                [23.231563916567175, -106.3957002322502],
+                [23.229074065714812, -106.39787614945014],
+                [23.226999268014655, -106.39946551875943],
+                [23.22172387386133, -106.40226627643231],
+                [23.218521476900662, -106.40363723225067],
+                [23.21613850019618, -106.4049623610871],
+                [23.21176768292731, -106.40765627643263],
+                [23.20863749149783, -106.4103980629418],
+                [23.206361555655796, -106.41202273410546],
+                [23.204408041514263, -106.4134323475966],
+                [23.202648744630565, -106.41349162061472],
+                [23.20197101239246, -106.41442934759668],
+                [23.201652973813633, -106.41593203410574],
+                [23.201316285818454, -106.41788964945111],
+                [23.201237418899588, -106.41950677828748],
+                [23.20222051766603, -106.42015796294206],
+                [23.201166235456707, -106.42056634945111],
+                [23.20052206470726, -106.41980216294208],
+                [23.20091708943299, -106.41763481671376],
+                [23.201298785848206, -106.41575630712383],
+                [23.201787618209146, -106.41448236294201]
+                                // ... coordenadas de Pradera Directo
+            ],
+            stops: [
+                { name: "Avenida San Miguel, 18255", coords: [23.27408197583113, -106.36855044992679] },
+                { name: "Avenida San Miguel, 18207", coords: [23.274542017100543, -106.36978546479389] },
+                { name: "Habacuc, 18304", coords: [23.2764540799901, -106.37072327643033] },
+                { name: "Avenida Eje 2 A, 10910", coords: [23.274992814766176, -106.3721938206122] },
+                { name: "Avenida Eje 2 A, 10635", coords: [23.27391449498501, -106.37424322061217] },
+                { name: "Avenida Genaro Estrada, 18437", coords: [23.272984472868096, -106.37541023410324] },
+                { name: "Calle Mustangs, 18531", coords: [23.27421034829657, -106.37651687643043] },
+                { name: "Comadrejas, 18733", coords: [23.274162457883424, -106.37870207643041] },
+                { name: "Calle Vizcachas, 18777", coords: [23.272813609297533, -106.37846463168118] },
+                { name: "Calle Antilopes, 18522", coords: [23.27043619559275, -106.37813976293963] },
+                { name: "Avenida De La Pradera, 18304", coords: [23.270331083550438, -106.3764501629396] },
+                { name: "Calle Albert Einstein, 10216", coords: [23.269857964365944, -106.37486857643061] },
+                { name: "Calle La Pradera, 18118", coords: [23.268805083478302, -106.37413296293968] },
+                { name: "Circunvalación Benjamín Franklin, 18107", coords: [23.2680051912474, -106.37449546293968] },
+                { name: "Circunvalación Benjamín Franklin, 368", coords: [23.26674251126258, -106.3751390764307] },
+                { name: "Camino Al Conchi, 13104", coords: [23.264341196128058, -106.37779598992176] },
+                { name: "Camino Al Conchi, 9035", coords: [23.261013000560975, -106.37993050526728] },
+                { name: "San Joaquín, 15", coords: [23.25775724585716, -106.38147789791257] },
+                { name: "Calle Costa Del Pacifico, 33", coords: [23.25546870794395, -106.38278699177644] },
+                { name: "Avenida Manuel J. Clouthier, 4606", coords: [23.250859069036018, -106.38527597643123] },
+                { name: "Avenida Manuel J. Clouthier, 4727", coords: [23.246803903861718, -106.38750509177676] },
+                { name: "Camino Al Conchi, Sn-S Oficina Cfe", coords: [23.242873136441602, -106.3898801744236] },
+                { name: "Federal Highway 15, 5a", coords: [23.24059987735623, -106.39017312061338] },
+                { name: "Emiliano Zapata, 2837", coords: [23.236986008152407, -106.39018974944982] },
+                { name: "Libramiento De Mazatlán, 2", coords: [23.2336488018644, -106.38998282061367] },
+                { name: "Carretera Internacional México 15, 5621", coords: [23.23246262082557, -106.39027317643193] },
+                { name: "Avenida Gabriel Leyva, 4063", coords: [23.231563916567175, -106.3957002322502] },
+                { name: "Avenida Gabriel Leyva, 12a", coords: [23.229074065714812, -106.39787614945014] },
+                { name: "Avenida Gabriel Leyva, 23", coords: [23.226999268014655, -106.39946551875943] },
+                { name: "Munich, 3229", coords: [23.22172387386133, -106.40226627643231] },
+                { name: "Avenida Gabriel Leyva, 2831", coords: [23.218521476900662, -106.40363723225067] },
+                { name: "Avenida Gabriel Leyva, 1880", coords: [23.21613850019618, -106.4049623610871] },
+                { name: "Avenida Gabriel Leyva, 2116a", coords: [23.21176768292731, -106.40765627643263] },
+                { name: "Avenida Gabriel Leyva, 1916", coords: [23.20863749149783, -106.4103980629418] },
+                { name: "Avenida Gabriel Leyva, 1711", coords: [23.206361555655796, -106.41202273410546] },
+                { name: "Avenida Gabriel Leyva, 1616", coords: [23.204408041514263, -106.4134323475966] },
+                { name: "Gregorio Ortega, 1133", coords: [23.202648744630565, -106.41349162061472] },
+                { name: "21 De Marzo, 1420", coords: [23.20197101239246, -106.41442934759668] },
+                { name: "21 De Marzo, 1315", coords: [23.201652973813633, -106.41593203410574] },
+                { name: "21 De Marzo, 1116", coords: [23.201316285818454, -106.41788964945111] },
+                { name: "Teniente José Azueta, 1604", coords: [23.201237418899588, -106.41950677828748] },
+                { name: "Leandro Valle, 415", coords: [23.20222051766603, -106.42015796294206] },
+                { name: "Aquiles Serdán, 1513", coords: [23.201166235456707, -106.42056634945111] },
+                { name: "Calle General Ángel Flores, 1010", coords: [23.20052206470726, -106.41980216294208] },
+                { name: "Calle General Ángel Flores, 1222", coords: [23.20091708943299, -106.41763481671376] },
+                { name: "Calle General Ángel Flores, 1420", coords: [23.201298785848206, -106.41575630712383] },
+                { name: "21 De Marzo, 1414", coords: [23.201787618209146, -106.41448236294201] }
+            ]
+        };
+    
+        
+    </script>
+    <script src="ruta.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUTABUS - Inicio</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="container">
+        <img src="logo.png" alt="RUTABUS" class="logo">
+        <button class="btn" id="loginBtn">Iniciar sesión</button>
+
+        <div class="login-form" id="loginForm" style="display: none;">
+            <input type="text" id="username" placeholder="Usuario" class="input-field" required>
+            <input type="password" id="password" placeholder="Contraseña" class="input-field" required>
+            <button class="btn" id="accederBtn">Acceder</button>
+        </div>
+        
+        <p class="register">¿No tienes cuenta? <a href="registro.html" id="registerLink">Regístrate</a></p>
+    </div>
+    <script src="login.js"></script>
+</body>
+</html>

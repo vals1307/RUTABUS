@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruta Venadillo | Transporte Mazatlán</title>
+    <link rel="stylesheet" href="ruta.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="route-header">
+        <a href="index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1>Venadillo</h1>
+    </header>
+
+    <main class="route-container">
+        <section class="route-map">
+            <div id="map"></div>
+        </section>
+
+        <section class="route-info">
+            <div class="info-card">
+                <i class="fas fa-clock"></i>
+                <div>
+                    <h3>Horario</h3>
+                    <p>5:30 AM - 9:30 PM</p>
+                </div>
+            </div>
+            
+            <div class="info-card">
+                <i class="fas fa-bus"></i>
+                <div>
+                    <h3>Frecuencia</h3>
+                    <p>Cada 15-20 minutos</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="route-details">
+            <h2><i class="fas fa-info-circle"></i> Información de la Ruta</h2>
+            <p>La ruta Venadillo conecta la zona residencial con el centro de la ciudad, pasando por avenidas principales como Ángel Flores y Juan Carrasco.</p>
+            
+            <div class="detail-card">
+                <h3><i class="fas fa-map-marked-alt"></i> Recorrido</h3>
+                <p>Inicia en El Chilillo, recorre Culiacán-Mazatlán, continúa por Ángel Flores hasta llegar al centro histórico.</p>
+            </div>
+        </section>
+
+        <section class="stops-section">
+            <h2><i class="fas fa-map-pin"></i> Paradas Principales</h2>
+            <ul class="stops-list">
+                <li>El Chilillo</li>
+                <li>Culiacán-Mazatlán, 12381</li>
+                <li>Ángel Flores, 10</li>
+                <li>Avenida Jabalíes, 177a</li>
+                <li>Avenida Juan Carrasco, 304b</li>
+            </ul>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Configuramos el botón de regreso
+    const backButton = document.querySelector('.back-button');
+    
+    backButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Verificamos si venimos de favoritos
+        const fromFavorites = localStorage.getItem('comingFromFavorites');
+        
+        if(fromFavorites === 'true') {
+            // Eliminamos la bandera
+            localStorage.removeItem('comingFromFavorites');
+            // Redirigimos directamente al inicio
+            window.location.href = 'rutabus.html';
+        } else {
+            // Comportamiento normal
+            window.history.back();
+        }
+    });
+    
+});
+        const routeConfig = {
+            name: "Venadillo",
+            coords: [
+                [23.316206680431275, -106.38788658992374],
+                [23.30308497569395, -106.40227004417484],
+                [23.293114557770135, -106.40562053313204],
+                [23.285261978171377, -106.41037193313238],
+                [23.285366338371233, -106.41222093313236],
+                [23.28606981814896, -106.41274193313231],
+                [23.285366338371233, -106.41222093313236],
+                [23.283953614922982, -106.41200764847578],
+                [23.281679359644055, -106.41272874662486],
+                [23.2814779627958, -106.41253001964],
+                [23.27930722077226, -106.4135663889532],
+                [23.27430885016839, -106.41472636196855],
+                [23.26972623283023, -106.41616483313277],
+                [23.26262195155112, -106.41260941778972],
+                [23.259497030059816, -106.40924263313316],
+                [23.258265833326078, -106.41063230614822],
+                [23.257011565869906, -106.41247524418483],
+                [23.2549543797966, -106.41352241964083],
+                [23.25331186813421, -106.41179139080505],
+                [23.249999600070076, -106.4141805889543],
+                [23.251135028683667, -106.41591881964095],
+                [23.25339128396125, -106.41801444662579],
+                [23.25232186772727, -106.4196667331334],
+                [23.249755991488232, -106.41996667546186],
+                [23.246336151473287, -106.4212033908053],
+                [23.243946697336725, -106.42161944847703],
+                [23.240989018412584, -106.4223134196413],
+                [23.238711530238295, -106.42293500429798],
+                [23.2364773403576, -106.42356659080558],
+                [23.233034759593036, -106.42287289404895],
+                [23.230281236613596, -106.4223068503284],
+                [23.227259486219772, -106.42163708895494],
+                [23.22465593004549, -106.42051841779087],
+                [23.22178333173144, -106.41932557731364],
+                [23.218916536829497, -106.417904319642],
+                [23.216639639709392, -106.4166731024478],
+                [23.213260402377973, -106.41616651964215],
+                [23.210715446520638, -106.41711781964229],
+                [23.20917806366683, -106.4183682042989],
+                [23.207450543272707, -106.4196250908065],
+                [23.20569506572534, -106.42097144662736],
+                [23.205292274675426, -106.42273370429903],
+                [23.204096166670258, -106.42463416197081],
+                [23.202356434216373, -106.42446750429912],
+                [23.200243507707057, -106.42436936197092],
+                [23.199715991817786, -106.42348294662756],
+                [23.199999375390338, -106.42174550429925],
+                [23.201185517574793, -106.42156579614769],
+                [23.203164421635968, -106.42174230800099],
+                [23.204784509889397, -106.42213817731412],
+                [23.206009365539625, -106.42139310429901],
+                [23.207150204135157, -106.41952730429895]
+            ],
+            stops: [
+                {name: "El Chilillo", coords: [23.316206680431275, -106.38788658992374]},
+                {name: "Culiacán-Mazatlán, 12381", coords: [23.30308497569395, -106.40227004417484]},
+                {name: "Culiacán-Mazatlán, 377", coords: [23.293114557770135, -106.40562053313204]},
+                {name: "Elpidio Osuna, 24", coords: [23.285261978171377, -106.41037193313238]},
+                {name: "Ángel Flores, 10", coords: [23.285366338371233, -106.41222093313236]},
+                {name: "Circunvalacion, 122", coords: [23.28606981814896, -106.41274193313231]},
+                {name: "Ángel Flores, 10", coords: [23.285366338371233, -106.41222093313236]},
+                {name: "Ángel Flores, Sn-S Herreria", coords: [23.283953614922982, -106.41200764847578]},
+                {name: "Ángel Flores, 19", coords: [23.281679359644055, -106.41272874662486]},
+                {name: "Ángel Flores, 3", coords: [23.2814779627958, -106.41253001964]},
+                {name: "Culiacán-Mazatlán, 51", coords: [23.27930722077226, -106.4135663889532]},
+                {name: "Internacional México 15, Sn-S Expendio Tecate", coords: [23.27430885016839, -106.41472636196855]},
+                {name: "Internacional México 15, 3601", coords: [23.26972623283023, -106.41616483313277]},
+                {name: "Avenida De Las Torres, 2107", coords: [23.26262195155112, -106.41260941778972]},
+                {name: "Boulevard Luis Donaldo Colosio Murrieta, 1061", coords: [23.259497030059816, -106.40924263313316]},
+                {name: "De Los Venados, 46", coords: [23.258265833326078, -106.41063230614822]},
+                {name: "De Los Venados, 4611", coords: [23.257011565869906, -106.41247524418483]},
+                {name: "Avenida Jabalíes, 177a", coords: [23.2549543797966, -106.41352241964083]},
+                {name: "Avenida Jabalíes, 111a", coords: [23.25331186813421, -106.41179139080505]},
+                {name: "Avenida Santa Rosa, 9", coords: [23.249999600070076, -106.4141805889543]},
+                {name: "Calle 8, 2001", coords: [23.251135028683667, -106.41591881964095]},
+                {name: "Concordia, 2003", coords: [23.25339128396125, -106.41801444662579]},
+                {name: "Boulevard Adolfo López Mateos, 1205", coords: [23.25232186772727, -106.4196667331334]},
+                {name: "Avenida Arnaldo Rigodanza, 1201", coords: [23.249755991488232, -106.41996667546186]},
+                {name: "Anaxágoras, 2014", coords: [23.246336151473287, -106.4212033908053]},
+                {name: "Internacional México 15, 8229", coords: [23.243946697336725, -106.42161944847703]},
+                {name: "Internacional México 15, 1883", coords: [23.240989018412584, -106.4223134196413]},
+                {name: "Internacional México 15, 19", coords: [23.238711530238295, -106.42293500429798]},
+                {name: "Internacional México 15, 15189", coords: [23.2364773403576, -106.42356659080558]},
+                {name: "Avenida Ejército Mexicano, 1010", coords: [23.233034759593036, -106.42287289404895]},
+                {name: "Avenida Ejército Mexicano, 108(372", coords: [23.230281236613596, -106.4223068503284]},
+                {name: "Avenida Ejército Mexicano, 2203", coords: [23.227259486219772, -106.42163708895494]},
+                {name: "Lola Beltrán, 2a", coords: [23.22465593004549, -106.42051841779087]},
+                {name: "Calle Río Piaxtla, 809", coords: [23.22178333173144, -106.41932557731364]},
+                {name: "Avenida Ejército Mexicano, 505", coords: [23.218916536829497, -106.417904319642]},
+                {name: "Avenida Ejército Mexicano, 1205", coords: [23.216639639709392, -106.4166731024478]},
+                {name: "Avenida Juan Carrasco, 160", coords: [23.213260402377973, -106.41616651964215]},
+                {name: "Avenida Juan Carrasco, 127a", coords: [23.210715446520638, -106.41711781964229]},
+                {name: "Avenida Juan Carrasco, 527", coords: [23.20917806366683, -106.4183682042989]},
+                {name: "Avenida Juan Carrasco, 267", coords: [23.207450543272707, -106.4196250908065]},
+                {name: "Aquiles Serdán, 2202", coords: [23.20569506572534, -106.42097144662736]},
+                {name: "Avenida Zaragoza, 805", coords: [23.205292274675426, -106.42273370429903]},
+                {name: "Belisario Domínguez, 2303", coords: [23.204096166670258, -106.42463416197081]},
+                {name: "Belisario Domínguez, 2101", coords: [23.202356434216373, -106.42446750429912]},
+                {name: "Belisario Domínguez, 1803", coords: [23.200243507707057, -106.42436936197092]},
+                {name: "Calle General Ángel Flores, 604", coords: [23.199715991817786, -106.42348294662756]},
+                {name: "Calle General Ángel Flores, 834", coords: [23.199999375390338, -106.42174550429925]},
+                {name: "Calle Benito Juárez, Sn-S Fabricas De Francia", coords: [23.201185517574793, -106.42156579614769]},
+                {name: "Calle Benito Juárez, 1908", coords: [23.203164421635968, -106.42174230800099]},
+                {name: "Calle Benito Juárez, 2212", coords: [23.204784509889397, -106.42213817731412]},
+                {name: "Luis Zúñiga, 624b", coords: [23.206009365539625, -106.42139310429901]},
+                {name: "Avenida Juan Carrasco, 304b", coords: [23.207150204135157, -106.41952730429895]}
+            ]
+        };
+    </script>
+    <script src="ruta.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</body>
+</html>

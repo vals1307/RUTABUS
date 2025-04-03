@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUTABUS - Registro</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Regístrate</h2>
+        <form id="registerForm">
+            <input type="text" id="newUsername" placeholder="Nombre de usuario" class="input-field" required>
+            
+            <div class="password-container">
+                <input type="password" id="newPassword" placeholder="Contraseña" class="input-field" required>
+                <span class="toggle-password" onclick="togglePasswordVisibility('newPassword')">👁️</span>
+            </div>
+
+            <div class="password-container">
+                <input type="password" id="confirmPassword" placeholder="Confirmar contraseña" class="input-field" required>
+                <span class="toggle-password" onclick="togglePasswordVisibility('confirmPassword')">👁️</span>
+            </div>
+
+            <div id="message" class="message"></div>
+
+            <button type="submit" class="btn">Registrar</button>
+        </form>
+        <p style="color: black; margin-top: 5px;">¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a></p>
+    </div>
+    <script src="registro.js"></script>
+</body>
+</html>
